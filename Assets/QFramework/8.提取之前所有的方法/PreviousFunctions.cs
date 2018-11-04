@@ -37,7 +37,6 @@ namespace QFramework
 		}
 #endif		
 		
-		
 #if UNITY_EDITOR
 		[MenuItem("QFramework/8.总结之前的方法/1.获取文件名")]
 		private static void MenuClicked()
@@ -76,7 +75,7 @@ namespace QFramework
 			OpenInFolder(Path.Combine(Application.dataPath, "../"));
 		}
 		
-		[MenuItem("QFramework/7.自定义快捷键")]
+		[MenuItem("QFramework/8.总结之前的方法/7.自定义快捷键")]
 		private static void MenuClicked7()
 		{
 			Debug.Log("%e 意思是快捷键 cmd/ctrl + e");
