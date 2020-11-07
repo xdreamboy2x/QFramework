@@ -11,6 +11,15 @@
 
 [码云国内镜像仓:https://gitee.com/liangxiegame/QFramework](https://gitee.com/liangxiegame/QFramework)
 
+### ShowCase（商业案例）
+|  [谐音梗挑战](https://www.taptap.com/app/201075)   |  
+|  :-:  | 
+| ![](./Documents/Res/ShowCase/谐音梗挑战.png)  | 
+
+## Star 趋势（如果项目有帮到您欢迎点赞）
+
+[![Stargazers over time](https://starchart.cc/liangxiegame/QFramework.svg)](https://starchart.cc/liangxiegame/QFramework)
+
 
 #### 快速开始 QuickStart:
 
@@ -92,14 +101,16 @@ UIKit.OpenPanel<UIMainPanel>(prefabName:"UIMainPanel1");
 * Unity 5.6.x ~ 2020.x
 
 ### 可选的包含项目 Include Projects:
-* [Catlib.Core](https://github.com/CatLib/Core)
-* [ActionSequenceSystem](https://github.com/karsion/ActionSequenceSystem)
-* [StateManageEditor](https://github.com/827922094/StateManageEditor)
+* ~~[Catlib.Core](https://github.com/CatLib/Core)~~
+* ~~[ActionSequenceSystem](https://github.com/karsion/ActionSequenceSystem)~~
+* ~~[StateManageEditor](https://github.com/827922094/StateManageEditor)~~
 * [UniRx](https://github.com/neuecc/UniRx)
 * [Json.net](https://github.com/JamesNK/Newtonsoft.Json)
-* [UnityEditorMemo](https://github.com/charcolle/UnityEditorMemo)
 
 #### 参考 Reference:
+* [MultyFramework](https://github.com/OnClick9927/MultyFramework)
+* [IFramework_GUICanvas](https://github.com/OnClick9927/IFramework_GUICanvas)
+* [IFramework](https://github.com/OnClick9927/IFramework)
 * [Loxodon Framework](https://github.com/cocowolf/loxodon-framework)
 * [BDFramework](https://github.com/yimengfan/BDFramework.Core)
 * [HGFramework: Unity3D客户端框架](https://github.com/zhutaorun/HGFramework)
@@ -127,11 +138,7 @@ UIKit.OpenPanel<UIMainPanel>(prefabName:"UIMainPanel1");
 - [xasset](https://github.com/xasset/xasset): xasset 致力于为 Unity 项目提供一套精简稳健的资源管理环境
 - [TinaX](https://github.com/yomunsam/TinaX): 开箱即用的 Unity 开发框架，支持 Lua。
 - [IFramework（OnClick）](https://github.com/OnClick9927/IFramework) Simple Unity Tools
-- [ILRuntimeProject](https://gitee.com/davidch/ILRuntimeProject) 基于ILRuntime的热更新框架（定制）： 
-    1. Unity完整的资源热更流程（热更下载中断处理，资源校验，热更回退等） 
-    2. 基于ILRuntime的代码热更 
-    3. 自动生成热更包及热更配置表 
-    4. ab包加密及资源解压 
+- [JEngine](https://github.com/JasonXuDeveloper/JEngine) JEngine is a streamlined and easy-to-use framework designed for Unity Programmers.
 
 ### 代码规范完全遵循:
 [QCSharpStyleGuide](https://github.com/liangxiegame/QCSharpStyleGuide)

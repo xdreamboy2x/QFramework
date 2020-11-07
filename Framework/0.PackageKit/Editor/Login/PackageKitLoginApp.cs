@@ -1,35 +1,26 @@
-namespace QFramework.PackageKit
+namespace QFramework
 {
-    public class PackageLoginApp
+    public class PackageKitLoginApp : Architecture<PackageKitLoginApp>
     {
-        private static IQFrameworkContainer mContainer { get; set; }
-
-        public static IQFrameworkContainer Container
-        {
-            get { return mContainer; }
-        }
+        protected PackageKitLoginApp() {}
         
-        public PackageLoginApp()
+        protected override void OnSystemConfig(IQFrameworkContainer systemLayer)
         {
-            mContainer = new QFrameworkContainer();
-
-            mContainer.RegisterInstance(new PackageLoginModel());
-            mContainer.RegisterInstance<IPackageLoginService>(new PacakgeLoginService());
-            TypeEventSystem.Register<IPackageLoginCommand>(OnCommandExecute);
+            
         }
 
-        void OnCommandExecute(IPackageLoginCommand command)
+        protected override void OnModelConfig(IQFrameworkContainer modelLayer)
         {
-            mContainer.Inject(command);
-            command.Execute();
+            modelLayer.RegisterInstance<IPackageLoginService>(new PacakgeLoginService());
         }
 
-        public void Dispose()
+        protected override void OnUtilityConfig(IQFrameworkContainer utilityLayer)
         {
-            TypeEventSystem.UnRegister<IPackageLoginCommand>(OnCommandExecute);
 
-            mContainer.Clear();
-            mContainer = null;
+        }
+
+        protected override void OnLaunch()
+        {
         }
     }
 }

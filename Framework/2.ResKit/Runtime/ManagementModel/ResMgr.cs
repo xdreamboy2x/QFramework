@@ -99,13 +99,13 @@ namespace QFramework
 #if UNITY_EDITOR
             if (AssetBundleSettings.SimulateAssetBundleInEditor)
             {
-                ResKit.ResData = EditorRuntimeAssetDataCollector.BuildDataTable();
+                AssetBundleSettings.AssetBundleConfigFile = EditorRuntimeAssetDataCollector.BuildDataTable();
                 yield return null;
             }
             else
 #endif
             {
-                ResKit.ResData.Reset();
+                AssetBundleSettings.AssetBundleConfigFile.Reset();
 
                 var outResult = new List<string>();
                 string pathPrefix = "";
@@ -113,24 +113,24 @@ namespace QFramework
                 pathPrefix = "file://";
 #endif
                 // 未进行过热更
-                if (ResKit.LoadResFromStreammingAssetsPath)
+                if (AssetBundleSettings.LoadAssetResFromStreammingAssetsPath)
                 {
                     string streamingPath = Application.streamingAssetsPath + "/AssetBundles/" +
-                                           AssetBundleSettings.GetPlatformName() + "/" + ResKit.ResData.FileName;
+                                           AssetBundleSettings.GetPlatformName() + "/" +  AssetBundleSettings.AssetBundleConfigFile.FileName;
                     outResult.Add(pathPrefix + streamingPath);
                 }
                 // 进行过热更
                 else
                 {
                     string persistenPath = Application.persistentDataPath + "/AssetBundles/" +
-                                           AssetBundleSettings.GetPlatformName() + "/" + ResKit.ResData.FileName;
+                                           AssetBundleSettings.GetPlatformName() + "/" +  AssetBundleSettings.AssetBundleConfigFile.FileName;
                     outResult.Add(pathPrefix + persistenPath);
                 }
 
                 foreach (var outRes in outResult)
                 {
                     Debug.Log(outRes);
-                    yield return ResKit.ResData.LoadFromFileAsync(outRes);
+                    yield return AssetBundleSettings.AssetBundleConfigFile.LoadFromFileAsync(outRes);
                 }
 
                 yield return null;
@@ -142,30 +142,31 @@ namespace QFramework
 #if UNITY_EDITOR
             if (AssetBundleSettings.SimulateAssetBundleInEditor)
             {
-                ResKit.ResData = EditorRuntimeAssetDataCollector.BuildDataTable();
+                AssetBundleSettings.AssetBundleConfigFile = EditorRuntimeAssetDataCollector.BuildDataTable();
             }
             else
 #endif
             {
-                ResKit.ResData.Reset();
+                AssetBundleSettings.AssetBundleConfigFile.Reset();
 
                 var outResult = new List<string>();
 
                 // 未进行过热更
-                if (ResKit.LoadResFromStreammingAssetsPath)
+                if (AssetBundleSettings.LoadAssetResFromStreammingAssetsPath)
                 {
-                    FileMgr.Instance.GetFileInInner(ResKit.ResData.FileName, outResult);
+                    ResKit.Interface.GetUtility<IZipFileHelper>()
+                        .GetFileInInner(AssetBundleSettings.AssetBundleConfigFile.FileName, outResult);
                 }
                 // 进行过热更
                 else
                 {
-                    FilePath.GetFileInFolder(FilePath.PersistentDataPath, ResKit.ResData.FileName, outResult);
+                    FilePath.GetFileInFolder(FilePath.PersistentDataPath, AssetBundleSettings.AssetBundleConfigFile.FileName, outResult);
                 }
 
                 foreach (var outRes in outResult)
                 {
                     Debug.Log(outRes);
-                    ResKit.ResData.LoadFromFile(outRes);
+                    AssetBundleSettings.AssetBundleConfigFile.LoadFromFile(outRes);
                 }
             }
         }

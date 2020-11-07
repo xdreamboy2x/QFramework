@@ -1,13 +1,11 @@
 using System.IO;
-using BindKit.ViewModels;
-using QFramework.PackageKit;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace QFramework
 {
-    public class UIKitSettingViewModel : ViewModelBase
+    public class UIKitSettingViewModel
     {
 
         private string mPanelNameToCreate = "UIHomePanel";
@@ -20,6 +18,8 @@ namespace QFramework
         
         public void OnCreateUIPanelClick()
         {
+            var controllerNode = ControllerNode<PackageKit>.Allocate();
+
             var panelName = mPanelNameToCreate;
 
             if (panelName.IsNotNullAndEmpty())
@@ -32,13 +32,15 @@ namespace QFramework
 
                 if (File.Exists(panelPrefabPath))
                 {
-                    DialogUtils.ShowErrorMsg("UI 界面已存在:{0}".FillFormat(panelPrefabPath));
+                    SingletonProperty<PackageKit>.Instance.GetUtility<IEditorDialogUtility>()
+                        .ShowErrorMsg("UI 界面已存在:{0}".FillFormat(panelPrefabPath));
                     return;
                 }
                 
                 if (File.Exists(fullScenePath))
                 {
-                    DialogUtils.ShowErrorMsg("测试场景已存在:{0}".FillFormat(fullScenePath));
+                    SingletonProperty<PackageKit>.Instance.GetUtility<IEditorDialogUtility>()
+                        .ShowErrorMsg("测试场景已存在:{0}".FillFormat(fullScenePath));
                     return;
                 }
                 
@@ -80,6 +82,9 @@ namespace QFramework
                     UICodeGenerator.DoCreateCode(new[] {prefab});
                 });
             }
+            
+            controllerNode.Recycle2Cache();
+            controllerNode = null;
         }
     }
 }

@@ -78,8 +78,6 @@ namespace QFramework
 		{
 			mUIData = uiData;
 			OnInit(uiData);
-			InitUI(uiData);
-			RegisterUIEvent();
 		}
 
 		public void Open(IUIData uiData = null)
@@ -118,7 +116,7 @@ namespace QFramework
 		/// </summary>
 		void IPanel.Close(bool destroyed)
 		{
-			PanelInfo.UIData = mUIData;
+			Info.UIData = mUIData;
 			mOnClosed.InvokeGracefully();
 			mOnClosed = null;
 			Hide();
@@ -151,9 +149,9 @@ namespace QFramework
 		/// </summary>
 		protected abstract void OnClose();
 
-		private Action mOnClosed;
+		private System.Action mOnClosed;
 
-		public void OnClosed(Action onPanelClosed)
+		public void OnClosed(System.Action onPanelClosed)
 		{
 			mOnClosed = onPanelClosed;
 		}

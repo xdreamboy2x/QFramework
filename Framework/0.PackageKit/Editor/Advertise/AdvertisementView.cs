@@ -1,58 +1,60 @@
-﻿using UnityEngine;
+﻿/****************************************************************************
+ * Copyright (c) 2018 ~ 2020.10 liangxie
+ * 
+ * https://qframework.cn
+ * https://github.com/liangxiegame/QFramework
+ * https://gitee.com/liangxiegame/QFramework
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ ****************************************************************************/
 
-namespace QFramework.PackageKit
+using System.ComponentModel;
+
+namespace QFramework
 {
+	[DisplayName("技术支持")]
+	[PackageKitGroup("QFramework")]
+	[PackageKitRenderOrder(int.MinValue)]
 	public class AdvertisementView : IPackageKitView
 	{
 		public IQFrameworkContainer Container { get; set; }
 
-		public int RenderOrder
-		{
-			get { return -1; }
-		}
-
-		public bool Ignore { get; private set; }
-
-		public bool Enabled
-		{
-			get { return true; }
-		}
-
-		private VerticalLayout mRootLayout = null;
+		private IVerticalLayout mRootLayout;
 
 		public void Init(IQFrameworkContainer container)
 		{
-			mRootLayout = new VerticalLayout();
+			mRootLayout = EasyIMGUI.Vertical();
 
-			var treeNode = new TreeNode(true, LocalText.TechSupport, autosaveSpreadState: true)
+			var verticalLayout =  EasyIMGUI.Vertical()
 				.AddTo(mRootLayout);
-
-
-			var verticalLayout = new VerticalLayout();
-
-			treeNode.Add2Spread(verticalLayout);
-
+			EasyIMGUI.Label().Text("技术支持").FontBold().FontSize(12).AddTo(verticalLayout);
 
 			new AdvertisementItemView("官方文档：《QFramework 使用指南 2020》",
-					"https://liangxiegame.com/zhuanlan/list/f0510c91-a90e-44df-87d2-f2ab94268fd1")
+					"https://qframework.cn/doc")
 				.AddTo(verticalLayout);
 
 			new AdvertisementItemView("官方 qq 群：623597263",
 					"https://shang.qq.com/wpa/qunwpa?idkey=706b8eef0fff3fe4be9ce27c8702ad7d8cc1bceabe3b7c0430ec9559b3a9ce6")
 				.AddTo(verticalLayout);
 
-			new AdvertisementItemView("提问",
-					"https://liangxiegame.com/zhuanlan/content/detail/7aed2448-a0a7-4de3-968b-375b3f06abe8")
-				.AddTo(verticalLayout);
-
-
-			new AdvertisementItemView("提需求",
-					"https://liangxiegame.com/zhuanlan/content/detail/2a7cf754-e57c-4e9a-85a0-93b9226b1ad8")
-				.AddTo(verticalLayout);
-
-
-			new AdvertisementItemView("提 Bug",
-					"https://liangxiegame.com/zhuanlan/content/detail/1d45ba9e-12df-42c5-abc3-1312effb5cce")
+			new AdvertisementItemView("提问/提需求/提 Bug/社区",
+					"https://qframework.cn/community")
 				.AddTo(verticalLayout);
 
 			new AdvertisementItemView("github",
@@ -84,6 +86,15 @@ namespace QFramework.PackageKit
 		{
 			mRootLayout.Dispose();
 			mRootLayout = null;
+		}
+
+		public void OnShow()
+		{
+			
+		}
+
+		public void OnHide()
+		{
 		}
 
 		public class LocalText

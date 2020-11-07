@@ -1,21 +1,28 @@
 using UnityEngine;
 
-namespace QFramework.PackageKit
+namespace QFramework
 {
     public class AdvertisementItemView : HorizontalLayout
     {
-        public AdvertisementItemView(string title,string link) : base("box")
+        public AdvertisementItemView(string title, string link)
         {
-            new LabelView(title).FontBold().AddTo(this);
-
-            new FlexibaleSpaceView().AddTo(this);
+            Box();
             
-            new ButtonView(LocalText.Open, () => { Application.OpenURL(link); })
+            EasyIMGUI.Label()
+                .Text(title)
+                .FontBold()
+                .AddTo(this);
+            
+            EasyIMGUI.FlexibleSpace().AddTo(this);
+
+            EasyIMGUI.Button()
+                .Text(LocalText.Open)
+                .OnClick(() => { Application.OpenURL(link); })
                 .Width(200)
                 .AddTo(this);
         }
 
-        public class LocalText
+        class LocalText
         {
             public static string Open
             {

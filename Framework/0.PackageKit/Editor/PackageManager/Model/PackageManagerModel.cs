@@ -1,24 +1,26 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 
-namespace QFramework.PackageKit
+namespace QFramework
 {
-    public class PackageManagerModel
+    public interface IPackageManagerModel : IModel
     {
+        List<PackageRepository> Repositories { get; set; }
+    }
 
-        public List<PackageRepository> Repositories = new List<PackageRepository>();
+    class PackageManagerModel : Model<PackageKit>, IPackageManagerModel
+    {
+        public PackageManagerModel()
+        {
+            Repositories = PackageInfosRequestCache.Get().PackageRepositories;
+        }
+
+        public List<PackageRepository> Repositories { get; set; }
 
         public bool VersionCheck
         {
             get { return EditorPrefs.GetBool("QFRAMEWORK_VERSION_CHECK", true); }
             set { EditorPrefs.SetBool("QFRAMEWORK_VERSION_CHECK", value); }
-        }
-
-
-        public IEnumerable<PackageRepository> SelectedPackageType
-        {
-            get { return Repositories.OrderBy(p => p.name); }
         }
     }
 }

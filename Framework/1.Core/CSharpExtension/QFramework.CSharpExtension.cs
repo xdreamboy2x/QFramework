@@ -1,8 +1,9 @@
 /****************************************************************************
- * Copyright (c) 2017 ~ 2019.11 liangxie
+ * Copyright (c) 2017 ~ 2020.10 liangxie
  * 
- * http://qframework.io
+ * https://qframework.cn
  * https://github.com/liangxiegame/QFramework
+ * https://gitee.com/liangxiegame/QFramework
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +33,15 @@ namespace QFramework
     using System.Text.RegularExpressions;
     using System.Reflection;
     using System.Text;
-    
-    #if UNITY_5_6_OR_NEWER
+
+#if UNITY_5_6_OR_NEWER
     using UnityEngine;
     using UnityEngine.Events;
     using UnityEngine.UI;
     using Object = UnityEngine.Object;
-    #endif
-    
+
+#endif
+
     /// <summary>
     /// 一些基础类型的扩展
     /// </summary>
@@ -68,7 +70,7 @@ namespace QFramework
         {
             return condition(selfObj);
         }
-        
+
         /// <summary>
         /// 表达式成立 则执行 Action
         /// 
@@ -107,7 +109,6 @@ namespace QFramework
 
             return selfCondition;
         }
-
     }
 
     /// <summary>
@@ -154,6 +155,14 @@ namespace QFramework
         public static bool IsNotNull<T>(this T selfObj) where T : class
         {
             return null != selfObj;
+        }
+
+        public static void DoIfNotNull<T>(this T selfObj, Action<T> action) where T : class
+        {
+            if (selfObj != null)
+            {
+                action(selfObj);
+            }
         }
     }
 
@@ -507,15 +516,14 @@ namespace QFramework
     /// </summary>
     public static class IOExtension
     {
-        
         /// <summary>
         /// 检测路径是否存在，如果不存在则创建
         /// </summary>
         /// <param name="path"></param>
         public static string CreateDirIfNotExists4FilePath(this string path)
-        { 
+        {
             var direct = Path.GetDirectoryName(path);
-            
+
             if (!Directory.Exists(direct))
             {
                 Directory.CreateDirectory(direct);
@@ -523,8 +531,8 @@ namespace QFramework
 
             return path;
         }
-        
-        
+
+
         /// <summary>
         /// 创建新的文件夹,如果存在则不创建
         /// <code>
@@ -631,6 +639,7 @@ namespace QFramework
 #endif
         }
 #endif
+
 
         /// <summary>
         /// 获取文件夹名
@@ -820,7 +829,28 @@ namespace QFramework
 
         #endregion
     }
+#if UNITY_5_6_OR_NEWER
+    /// <summary>
+    /// 简单的概率计算
+    /// </summary>
+    public static class ProbilityHelper
+    {
+        public static T RandomValueFrom<T>(params T[] values)
+        {
+            return values[UnityEngine.Random.Range(0, values.Length)];
+        }
 
+        /// <summary>
+        /// percent probability
+        /// </summary>
+        /// <param name="percent"> 0 ~ 100 </param>
+        /// <returns></returns>
+        public static bool PercentProbability(int percent)
+        {
+            return UnityEngine.Random.Range(0, 1000) * 0.001f < 50 * 0.01f;
+        }
+    }
+#endif
     /// <summary>
     /// 面向对象扩展（继承、封装、多态)
     /// </summary>
@@ -884,7 +914,7 @@ namespace QFramework
                     .SingleOrDefault(a => a.GetName().Name == "Assembly-CSharp");
             }
         }
-        
+
         /// <summary>
         /// 获取默认的程序集中的类型
         /// </summary>
@@ -904,8 +934,8 @@ namespace QFramework
     {
         public static void Example()
         {
-            var selfType = ReflectionExtension.GetAssemblyCSharp().GetType("QFramework.ReflectionExtension");
-//            selfType.LogInfo();
+            // var selfType = ReflectionExtension.GetAssemblyCSharp().GetType("QFramework.ReflectionExtension");
+            // selfType.LogInfo();
         }
 
         public static Assembly GetAssemblyCSharp()
@@ -1114,7 +1144,12 @@ namespace QFramework
         /// <returns></returns>
         public static bool IsTrimNotNullAndEmpty(this string selfStr)
         {
-            return !string.IsNullOrEmpty(selfStr.Trim());
+            return selfStr != null && !string.IsNullOrEmpty(selfStr.Trim());
+        }
+
+        public static bool IsTrimNullOrEmpty(this string selfStr)
+        {
+            return selfStr == null || string.IsNullOrEmpty(selfStr.Trim());
         }
 
         /// <summary>
@@ -1326,10 +1361,10 @@ namespace QFramework
             return targets.Aggregate(str, (current, t) => current.Replace(t, string.Empty));
         }
     }
-    
-    
-    #if UNITY_5_6_OR_NEWER
-     public static class BehaviourExtension
+
+
+#if UNITY_5_6_OR_NEWER
+    public static class BehaviourExtension
     {
         public static void Example()
         {
@@ -1656,9 +1691,36 @@ namespace QFramework
             return Object.Instantiate(selfObj);
         }
 
+        public static T Instantiate<T>(this T selfObj, Vector3 position, Quaternion rotation) where T : Object
+        {
+            return (T) Object.Instantiate((Object) selfObj, position, rotation);
+        }
+
+        public static T Instantiate<T>(
+            this T selfObj,
+            Vector3 position,
+            Quaternion rotation,
+            Transform parent)
+            where T : Object
+        {
+            return (T) Object.Instantiate((Object) selfObj, position, rotation, parent);
+        }
+
+
+        public static T InstantiateWithParent<T>(this T selfObj, Transform parent, bool worldPositionStays)
+            where T : Object
+        {
+            return (T) Object.Instantiate((Object) selfObj, parent, worldPositionStays);
+        }
+
+        public static T InstantiateWithParent<T>(this T selfObj, Transform parent) where T : Object
+        {
+            return Object.Instantiate(selfObj, parent, false);
+        }
+
         #endregion
 
-        #region CEUO002 Instantiate
+        #region CEUO002 Name
 
         public static T Name<T>(this T selfObj, string name) where T : Object
         {
@@ -1806,7 +1868,7 @@ namespace QFramework
             selfToggle.onValueChanged.AddListener(onValueChangedEvent);
         }
     }
-    
+
     /// <summary>
     /// Transform's Extension
     /// </summary>
@@ -1931,7 +1993,6 @@ namespace QFramework
         {
             return selfComponent.transform.localPosition;
         }
-
 
 
         public static T LocalPosition<T>(this T selfComponent, float x, float y, float z) where T : Component
@@ -2216,7 +2277,19 @@ namespace QFramework
 
         #region CETR010 Destroy All Child
 
+        [Obsolete("弃用啦 请使用 DestroyChildren")]
         public static T DestroyAllChild<T>(this T selfComponent) where T : Component
+        {
+            return selfComponent.DestroyChildren();
+        }
+
+        [Obsolete("弃用啦 请使用 DestroyChildren")]
+        public static GameObject DestroyAllChild(this GameObject selfGameObj)
+        {
+            return selfGameObj.DestroyChildren();
+        }
+
+        public static T DestroyChildren<T>(this T selfComponent) where T : Component
         {
             var childCount = selfComponent.transform.childCount;
 
@@ -2228,7 +2301,7 @@ namespace QFramework
             return selfComponent;
         }
 
-        public static GameObject DestroyAllChild(this GameObject selfGameObj)
+        public static GameObject DestroyChildren(this GameObject selfGameObj)
         {
             var childCount = selfGameObj.transform.childCount;
 
@@ -2523,5 +2596,5 @@ namespace QFramework
             return keys[finalKeyIndex];
         }
     }
-    #endif
+#endif
 }

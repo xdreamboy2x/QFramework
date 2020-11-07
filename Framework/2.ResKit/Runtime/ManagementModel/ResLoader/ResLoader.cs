@@ -32,6 +32,11 @@ namespace QFramework
 
     public class ResLoader : DisposableObject,IResLoader
     {
+        [Obsolete("请使用 ResLoader.Allocate() 获取 ResLoader 对象",true)]
+        public ResLoader()
+        {
+             
+        }
         /// <summary>
         /// ID:RKRL001 申请ResLoader对象 ResLoader.Allocate（IResLoaderStrategy strategy = null)
         /// </summary>
@@ -151,7 +156,7 @@ namespace QFramework
 
         private readonly List<IRes>         mResList      = new List<IRes>();
         private readonly LinkedList<IRes>   mWaitLoadList = new LinkedList<IRes>();
-        private          Action             mListener;
+        private          System.Action             mListener;
 
         private int  mLoadingCount;
 
@@ -182,9 +187,6 @@ namespace QFramework
             }
         }
 
-        public ResLoader()
-        {
-        }
 
         public void Add2Load(List<string> list)
         {
@@ -332,7 +334,7 @@ namespace QFramework
         }
 
 
-        public void LoadAsync(Action listener = null)
+        public void LoadAsync(System.Action listener = null)
         {
             mListener = listener;
             DoLoadAsync();

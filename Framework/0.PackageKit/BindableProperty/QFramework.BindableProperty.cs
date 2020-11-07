@@ -115,6 +115,17 @@ namespace QFramework
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="onValueChanged"></param>
+        /// <returns></returns>
+        public IDisposable BindWithInitialValue(Action<T> onValueChanged)
+        {
+            onValueChanged.Invoke(GetValue());
+            return Bind(onValueChanged);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void UnBindAll()
         {
             mSetter = null;
@@ -151,31 +162,7 @@ namespace QFramework
     }
 #endif
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class CustomDisposable : IDisposable
-    {
-        private Action mOnDispose = null;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="onDispose"></param>
-        public CustomDisposable(Action onDispose)
-        {
-            mOnDispose = onDispose;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            mOnDispose.Invoke();
-            mOnDispose = null;
-        }
-    }
+ 
 
 #if UNITY_5_6_OR_NEWER
     public class PlayerPrefsBooleanProperty : Property<bool>
@@ -275,5 +262,7 @@ namespace QFramework
                 if (mValueSetter != null) mValueSetter(value);
             }
         }
+
+
     }
 }

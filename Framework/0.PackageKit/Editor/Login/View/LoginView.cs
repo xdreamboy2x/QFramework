@@ -1,46 +1,37 @@
-namespace QFramework.PackageKit
+namespace QFramework
 {
     public class LoginView : VerticalLayout
     {
+        ControllerNode<PackageKitLoginApp> mController = ControllerNode<PackageKitLoginApp>.Allocate();
+
+
         public LoginView()
         {
             var usernameLine = new HorizontalLayout().AddTo(this);
-            new LabelView("username:").AddTo(usernameLine);
-            var username = new TextView("").AddTo(usernameLine);
+            EasyIMGUI.Label().Text("username:").AddTo(usernameLine);
+
+            var username = EasyIMGUI.TextField()
+                .AddTo(usernameLine);
 
             var passwordLine = new HorizontalLayout().AddTo(this);
-            new LabelView("password:").AddTo(passwordLine);
-            var password = new TextView("").PasswordMode().AddTo(passwordLine);
+            EasyIMGUI.Label().Text("password:").AddTo(passwordLine);
+            var password = EasyIMGUI.TextField().PasswordMode().AddTo(passwordLine);
 
+            EasyIMGUI.Button()
+                .Text("登录")
+                .OnClick(() => { mController.SendCommand(new LoginCommand(username.Content.Value, password.Content.Value)); })
+                .AddTo(this);
 
-            var loginBtn = new ButtonView("登录").AddTo(this);
-            var registerBtn = new ButtonView("注册").AddTo(this);
-
-
-            var bindingSet = BindKit.CreateBindingSet(this,new LoginViewModel() );
-
-            bindingSet.Bind(username.Content)
-                .For(v => v.Value, v => v.OnValueChanged)
-                .To(vm => vm.Username);
-
-            bindingSet.Bind(password.Content)
-                .For(v => v.Value, v => v.OnValueChanged)
-                .To(vm => vm.Password);
-
-            bindingSet.Bind(loginBtn)
-                .For(v=>v.OnClick)
-                .To(vm=>vm.Login);
-
-            bindingSet.Bind(registerBtn)
-                .For(v => v.OnClick)
-                .To(vm => vm.Register);
-            
-            bindingSet.Build();
+            EasyIMGUI.Button()
+                .Text("注册")
+                .OnClick(() => { mController.SendCommand<OpenRegisterWebsiteCommand>(); })
+                .AddTo(this);
         }
 
         protected override void OnDisposed()
         {
-            BindKit.ClearBindingSet(this);
+            mController.Recycle2Cache();
+            mController = null;
         }
     }
 }
